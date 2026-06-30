@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placar do Bolão: Thiago x Jamilly x Samyr</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 p-4 md:p-8">
+
+    <div class="max-w-4xl mx-auto">
+        <!-- Cabeçalho -->
+        <header class="bg-white rounded-xl shadow-md p-6 mb-8 text-center border-t-4 border-blue-600">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">🏆 Bolão da Galera</h1>
+            <p class="text-gray-600 text-sm">
+                <strong>Regras:</strong> Goleada = 3+ gols de diferença | Apertado = 1 ou 2 gols de diferença | Pênalti = Decisão nos pênaltis
+            </p>
+        </header>
+
+        <!-- Placar -->
+        <div class="grid grid-cols-3 gap-4 mb-8">
+            <div class="bg-white rounded-xl shadow p-6 text-center border-b-4 border-green-500">
+                <h2 class="text-xl font-bold text-gray-700">Thiago</h2>
+                <p id="score-Thiago" class="text-4xl font-black text-green-600 mt-2">0</p>
+                <p class="text-sm text-gray-500 mt-1">pontos</p>
+            </div>
+            <div class="bg-white rounded-xl shadow p-6 text-center border-b-4 border-purple-500">
+                <h2 class="text-xl font-bold text-gray-700">Jamilly</h2>
+                <p id="score-Jamilly" class="text-4xl font-black text-purple-600 mt-2">0</p>
+                <p class="text-sm text-gray-500 mt-1">pontos</p>
+            </div>
+            <div class="bg-white rounded-xl shadow p-6 text-center border-b-4 border-orange-500">
+                <h2 class="text-xl font-bold text-gray-700">Samyr</h2>
+                <p id="score-Samyr" class="text-4xl font-black text-orange-600 mt-2">0</p>
+                <p class="text-sm text-gray-500 mt-1">pontos</p>
+            </div>
+        </div>
+
+        <!-- Lista de Jogos -->
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Jogos e Palpites</h3>
+            <div id="games-container" class="space-y-6">
+                <!-- Os jogos serão injetados aqui pelo JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados dos jogos interpretados a partir da mensagem
+        const games = [
+            { id: 1, teams: ["Canadá"], guesses: { Thiago: "Canadá apertado", Jamilly: "Canadá apertado", Samyr: "Canadá apertado" }, result: "Canadá apertado" },
+            { id: 2, teams: ["Brasil"], guesses: { Thiago: "Brasil pênalti", Jamilly: "Brasil apertado", Samyr: "Brasil goleada" }, result: "Brasil apertado" },
+            { id: 3, teams: ["Alemanha", "Paraguai"], guesses: { Thiago: "Alemanha goleada", Jamilly: "Paraguai pênalti", Samyr: "Alemanha apertado" }, result: "Paraguai pênalti" },
+            { id: 4, teams: ["Marrocos", "Holanda"], guesses: { Thiago: "Marrocos pênalti", Jamilly: "Marrocos apertado", Samyr: "Holanda pênalti" }, result: "Marrocos pênalti" },
+            { id: 5, teams: ["Noruega"], guesses: { Thiago: "Noruega apertado", Jamilly: "Noruega goleada", Samyr: "Noruega apertado" }, result: "" },
+            { id: 6, teams: ["França"], guesses: { Thiago: "França goleada", Jamilly: "França goleada", Samyr: "França goleada" }, result: "" },
+            { id: 7, teams: ["Equador", "México"], guesses: { Thiago: "Equador apertado", Jamilly: "Equador pênalti", Samyr: "México pênalti" }, result: "" },
+            { id: 8, teams: ["Inglaterra"], guesses: { Thiago: "Inglaterra apertado", Jamilly: "Inglaterra apertado", Samyr: "Inglaterra apertado" }, result: "" },
+            { id: 9, teams: ["Senegal"], guesses: { Thiago: "Senegal apertado", Jamilly: "Senegal apertado", Samyr: "Senegal pênalti" }, result: "" },
+            { id: 10, teams: ["Bósnia", "EUA"], guesses: { Thiago: "Bósnia pênalti", Jamilly: "EUA apertado", Samyr: "EUA goleada" }, result: "" },
+            { id: 11, teams: ["Espanha"], guesses: { Thiago: "Espanha goleada", Jamilly: "Espanha pênalti", Samyr: "Espanha goleada" }, result: "" },
+            { id: 12, teams: ["Portugal", "Croácia"], guesses: { Thiago: "Portugal pênalti", Jamilly: "Croácia apertado", Samyr: "Portugal apertado" }, result: "" },
+            { id: 13, teams: ["Suíça", "Argélia"], guesses: { Thiago: "Suíça apertado", Jamilly: "Argélia apertado", Samyr: "Suíça goleada" }, result: "" },
+            { id: 14, teams: ["Egito"], guesses: { Thiago: "Egito apertado", Jamilly: "Egito goleada", Samyr: "Egito apertado" }, result: "" },
+            { id: 15, teams: ["Argentina", "Cabo Verde"], guesses: { Thiago: "Cabo Verde pênalti", Jamilly: "Argentina goleada", Samyr: "Argentina goleada" }, result: "" },
+            { id: 16, teams: ["Colômbia"], guesses: { Thiago: "Colômbia pênalti", Jamilly: "Colômbia goleada", Samyr: "Colômbia apertado" }, result: "" }
+        ];
+
+        const container = document.getElementById('games-container');
+        const scoreT = document.getElementById('score-Thiago');
+        const scoreJ = document.getElementById('score-Jamilly');
+        const scoreS = document.getElementById('score-Samyr');
+
+        // Função para gerar as opções do select com base nos times envolvidos
+        function generateOptions(teams, selectedResult) {
+            let optionsHTML = `<option value="">⚽ Selecione o Resultado Real...</option>`;
+            teams.forEach(team => {
+                const types = ["apertado", "goleada", "pênalti"];
+                types.forEach(type => {
+                    const val = `${team} ${type}`;
+                    const isSelected = selectedResult === val ? "selected" : "";
+                    optionsHTML += `<option value="${val}" ${isSelected}>${val}</option>`;
+                });
+            });
+            optionsHTML += `<option value="Outro" ${selectedResult === 'Outro' ? 'selected' : ''}>Outro Resultado (Ninguém pontua)</option>`;
+            return optionsHTML;
+        }
+
+        // Função para atualizar os placares
+        function updateScores() {
+            let points = { Thiago: 0, Jamilly: 0, Samyr: 0 };
+
+            games.forEach((game, index) => {
+                const selectElement = document.getElementById(`result-${index}`);
+                const actualResult = selectElement.value;
+                game.result = actualResult;
+
+                // Checa acertos
+                ['Thiago', 'Jamilly', 'Samyr'].forEach(person => {
+                    const guessElement = document.getElementById(`guess-${person}-${index}`);
+                    
+                    if (actualResult !== "" && actualResult === game.guesses[person]) {
+                        points[person]++;
+                        guessElement.classList.add('bg-green-100', 'border-green-400', 'text-green-800');
+                        guessElement.classList.remove('bg-gray-50', 'border-gray-200');
+                    } else {
+                        guessElement.classList.remove('bg-green-100', 'border-green-400', 'text-green-800');
+                        guessElement.classList.add('bg-gray-50', 'border-gray-200');
+                    }
+                });
+            });
+
+            // Atualiza a interface
+            scoreT.innerText = points.Thiago;
+            scoreJ.innerText = points.Jamilly;
+            scoreS.innerText = points.Samyr;
+        }
+
+        // Renderiza os jogos na tela
+        function renderGames() {
+            games.forEach((game, index) => {
+                const gameDiv = document.createElement('div');
+                gameDiv.className = "p-4 border rounded-lg bg-gray-50 flex flex-col md:flex-row gap-4 items-center justify-between";
+                
+                gameDiv.innerHTML = `
+                    <div class="w-full md:w-1/3">
+                        <span class="text-sm font-bold text-blue-600 uppercase">Jogo ${game.id}</span>
+                        <select id="result-${index}" class="mt-1 block w-full p-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                            ${generateOptions(game.teams, game.result)}
+                        </select>
+                    </div>
+                    
+                    <div class="w-full md:w-2/3 grid grid-cols-3 gap-2 text-center text-sm">
+                        <div id="guess-Thiago-${index}" class="p-2 border rounded-md transition-colors">
+                            <span class="block text-xs font-semibold text-gray-500">Thiago</span>
+                            ${game.guesses.Thiago}
+                        </div>
+                        <div id="guess-Jamilly-${index}" class="p-2 border rounded-md transition-colors">
+                            <span class="block text-xs font-semibold text-gray-500">Jamilly</span>
+                            ${game.guesses.Jamilly}
+                        </div>
+                        <div id="guess-Samyr-${index}" class="p-2 border rounded-md transition-colors">
+                            <span class="block text-xs font-semibold text-gray-500">Samyr</span>
+                            ${game.guesses.Samyr}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(gameDiv);
+
+                // Adiciona o evento de mudança
+                document.getElementById(`result-${index}`).addEventListener('change', updateScores);
+            });
+
+            // Roda a atualização inicial (para calcular os 4 primeiros que já têm resultado ✅)
+            updateScores();
+        }
+
+        // Inicia a aplicação
+        renderGames();
+    </script>
+</body>
+</html>
