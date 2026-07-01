@@ -5,111 +5,97 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Placar do Bolão: Thiago x Jamilly x Samyr</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Bibliotecas do Firebase -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; }
+        .bg-copa { background: linear-gradient(135deg, #028a0f 0%, #005c08 100%); }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800 p-4 md:p-8">
+<body class="text-gray-800 p-4 md:p-8">
 
-    <div class="max-w-4xl mx-auto">
-        <!-- Cabeçalho -->
-        <header class="bg-white rounded-xl shadow-md p-6 mb-8 text-center border-t-4 border-blue-600 relative">
-            <h1 class="text-3xl font-bold text-gray-900 mb-2">🏆 Bolão da Galera</h1>
-            <p class="text-gray-600 text-sm mb-4">
-                <strong>Regras:</strong> Goleada = 3+ gols | Apertado = 1 ou 2 gols | Pênalti = Decisão nos pênaltis
+    <div class="max-w-5xl mx-auto">
+        <header class="bg-copa rounded-xl shadow-lg p-8 mb-8 text-center border-b-8 border-yellow-400 relative">
+            <h1 class="text-4xl md:text-5xl font-black text-yellow-400 mb-2 uppercase tracking-wider drop-shadow-md">🏆 Bolão da Copa</h1>
+            <p class="text-green-100 text-sm md:text-base mb-4 font-semibold">
+                Goleada = 3+ gols | Apertado = 1 ou 2 gols | Pênalti = Decisão nos pênaltis
             </p>
             
-            <!-- Indicador de Conexão -->
-            <div id="status-conexao" class="inline-block bg-gray-200 text-gray-800 text-xs px-3 py-1 rounded-full font-bold">
-                ⏳ Conectando ao banco de dados...
+            <div id="status-conexao" class="inline-block bg-green-900 text-green-300 text-xs px-3 py-1 rounded-full font-bold shadow-inner">
+                ⏳ Conectando ao gramado...
             </div>
         </header>
 
-        <!-- Placar -->
-        <div class="grid grid-cols-3 gap-4 mb-8">
-            <div class="bg-white rounded-xl shadow p-6 text-center border-b-4 border-green-500 transition-transform transform hover:scale-105">
-                <h2 class="text-xl font-bold text-gray-700">Thiago</h2>
-                <p id="score-Thiago" class="text-4xl font-black text-green-600 mt-2">0</p>
-                <p class="text-sm text-gray-500 mt-1">pontos</p>
+        <div class="grid grid-cols-3 gap-3 md:gap-6 mb-8">
+            <div class="bg-white rounded-xl shadow-md p-4 md:p-6 text-center border-b-4 border-green-500 transition-transform transform hover:-translate-y-1">
+                <h2 class="text-lg md:text-2xl font-bold text-gray-700">Thiago</h2>
+                <p id="score-Thiago" class="text-4xl md:text-5xl font-black text-green-600 mt-2">0</p>
+                <p class="text-xs md:text-sm text-gray-500 mt-1 uppercase font-bold">pontos</p>
             </div>
-            <div class="bg-white rounded-xl shadow p-6 text-center border-b-4 border-purple-500 transition-transform transform hover:scale-105">
-                <h2 class="text-xl font-bold text-gray-700">Jamilly</h2>
-                <p id="score-Jamilly" class="text-4xl font-black text-purple-600 mt-2">0</p>
-                <p class="text-sm text-gray-500 mt-1">pontos</p>
+            <div class="bg-white rounded-xl shadow-md p-4 md:p-6 text-center border-b-4 border-yellow-500 transition-transform transform hover:-translate-y-1">
+                <h2 class="text-lg md:text-2xl font-bold text-gray-700">Jamilly</h2>
+                <p id="score-Jamilly" class="text-4xl md:text-5xl font-black text-yellow-500 mt-2">0</p>
+                <p class="text-xs md:text-sm text-gray-500 mt-1 uppercase font-bold">pontos</p>
             </div>
-            <div class="bg-white rounded-xl shadow p-6 text-center border-b-4 border-orange-500 transition-transform transform hover:scale-105">
-                <h2 class="text-xl font-bold text-gray-700">Samyr</h2>
-                <p id="score-Samyr" class="text-4xl font-black text-orange-600 mt-2">0</p>
-                <p class="text-sm text-gray-500 mt-1">pontos</p>
+            <div class="bg-white rounded-xl shadow-md p-4 md:p-6 text-center border-b-4 border-blue-500 transition-transform transform hover:-translate-y-1">
+                <h2 class="text-lg md:text-2xl font-bold text-gray-700">Samyr</h2>
+                <p id="score-Samyr" class="text-4xl md:text-5xl font-black text-blue-600 mt-2">0</p>
+                <p class="text-xs md:text-sm text-gray-500 mt-1 uppercase font-bold">pontos</p>
             </div>
         </div>
 
-        <!-- Lista de Jogos -->
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Jogos e Palpites</h3>
-            <div id="games-container" class="space-y-6">
-                <!-- Jogos injetados aqui -->
-            </div>
+        <div class="bg-white rounded-xl shadow-lg p-4 md:p-8 border-t-4 border-gray-200">
+            <h3 class="text-2xl font-black text-gray-800 mb-6 border-b-2 border-gray-100 pb-2 flex items-center gap-2">
+                ⚽ Confrontos - 16 Avos de Final
+            </h3>
+            <div id="games-container" class="space-y-4">
+                </div>
         </div>
     </div>
 
     <script>
-        // ==========================================
-        // 🔴 COLE AS CHAVES DO FIREBASE ABAIXO 🔴
-        // ==========================================
-       const firebaseConfig = {
+        const firebaseConfig = {
             apiKey: "AIzaSyDekEGMMM6Cvtw1qU4Won7dw0vGiOz9l8U",
             authDomain: "bolao-copa-f2d00.firebaseapp.com",
             projectId: "bolao-copa-f2d00",
             storageBucket: "bolao-copa-f2d00.firebasestorage.app",
             messagingSenderId: "238370787479",
             appId: "1:238370787479:web:6eb5bfa4f6ac5b9a6419d2",
-            measurementId: "G-6H6TD99HLN",
             databaseURL: "https://bolao-copa-f2d00-default-rtdb.firebaseio.com"
         };
-        // ==========================================
 
-        // Evita erro se a pessoa esquecer de colocar as chaves
-        if (firebaseConfig.apiKey === "COLE_AQUI") {
-            alert("⚠️ ALERTA: Você esqueceu de colocar as chaves do Firebase no código! O placar não vai salvar.");
-        }
-
-        // Inicializa o Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // Monitora se o site conseguiu conectar com a nuvem do Google
         const statusBadge = document.getElementById('status-conexao');
         db.ref('.info/connected').on('value', function(snap) {
             if (snap.val() === true) {
-                statusBadge.className = "inline-block bg-green-100 text-green-800 text-xs px-3 py-1 rounded-full font-bold";
-                statusBadge.innerHTML = "🟢 Sincronizado ao Vivo";
+                statusBadge.className = "inline-block bg-yellow-400 text-green-900 text-xs px-4 py-1 rounded-full font-bold shadow-md";
+                statusBadge.innerHTML = "🟢 Ao Vivo e Sincronizado";
             } else {
-                statusBadge.className = "inline-block bg-red-100 text-red-800 text-xs px-3 py-1 rounded-full font-bold";
-                statusBadge.innerHTML = "🔴 Desconectado (Não vai salvar)";
+                statusBadge.className = "inline-block bg-red-500 text-white text-xs px-4 py-1 rounded-full font-bold shadow-md";
+                statusBadge.innerHTML = "🔴 Sem Conexão";
             }
         });
 
+        // Tabela atualizada com os confrontos reais da Copa, horários e estádios!
         const games = [
-            { id: 1, teams: ["Canadá"], guesses: { Thiago: "Canadá apertado", Jamilly: "Canadá apertado", Samyr: "Canadá apertado" }, result: "Canadá apertado" },
-            { id: 2, teams: ["Brasil"], guesses: { Thiago: "Brasil pênalti", Jamilly: "Brasil apertado", Samyr: "Brasil goleada" }, result: "Brasil apertado" },
-            { id: 3, teams: ["Alemanha", "Paraguai"], guesses: { Thiago: "Alemanha goleada", Jamilly: "Paraguai pênalti", Samyr: "Alemanha apertado" }, result: "Paraguai pênalti" },
-            { id: 4, teams: ["Marrocos", "Holanda"], guesses: { Thiago: "Marrocos pênalti", Jamilly: "Marrocos apertado", Samyr: "Holanda pênalti" }, result: "Marrocos pênalti" },
-            { id: 5, teams: ["Noruega"], guesses: { Thiago: "Noruega apertado", Jamilly: "Noruega goleada", Samyr: "Noruega apertado" }, result: "" },
-            { id: 6, teams: ["França"], guesses: { Thiago: "França goleada", Jamilly: "França goleada", Samyr: "França goleada" }, result: "" },
-            { id: 7, teams: ["Equador", "México"], guesses: { Thiago: "Equador apertado", Jamilly: "Equador pênalti", Samyr: "México pênalti" }, result: "" },
-            { id: 8, teams: ["Inglaterra"], guesses: { Thiago: "Inglaterra apertado", Jamilly: "Inglaterra apertado", Samyr: "Inglaterra apertado" }, result: "" },
-            { id: 9, teams: ["Senegal"], guesses: { Thiago: "Senegal apertado", Jamilly: "Senegal apertado", Samyr: "Senegal pênalti" }, result: "" },
-            { id: 10, teams: ["Bósnia", "EUA"], guesses: { Thiago: "Bósnia pênalti", Jamilly: "EUA apertado", Samyr: "EUA goleada" }, result: "" },
-            { id: 11, teams: ["Espanha"], guesses: { Thiago: "Espanha goleada", Jamilly: "Espanha pênalti", Samyr: "Espanha goleada" }, result: "" },
-            { id: 12, teams: ["Portugal", "Croácia"], guesses: { Thiago: "Portugal pênalti", Jamilly: "Croácia apertado", Samyr: "Portugal apertado" }, result: "" },
-            { id: 13, teams: ["Suíça", "Argélia"], guesses: { Thiago: "Suíça apertado", Jamilly: "Argélia apertado", Samyr: "Suíça goleada" }, result: "" },
-            { id: 14, teams: ["Egito"], guesses: { Thiago: "Egito apertado", Jamilly: "Egito goleada", Samyr: "Egito apertado" }, result: "" },
-            { id: 15, teams: ["Argentina", "Cabo Verde"], guesses: { Thiago: "Cabo Verde pênalti", Jamilly: "Argentina goleada", Samyr: "Argentina goleada" }, result: "" },
-            { id: 16, teams: ["Colômbia"], guesses: { Thiago: "Colômbia pênalti", Jamilly: "Colômbia goleada", Samyr: "Colômbia apertado" }, result: "" }
+            { id: 1, teams: ["Canadá", "África do Sul"], title: "Canadá 🇨🇦 x 🇿🇦 África do Sul", details: "Dom, 28/06 - 16h00 (Los Angeles)", guesses: { Thiago: "Canadá apertado", Jamilly: "Canadá apertado", Samyr: "Canadá apertado" }, result: "Canadá apertado" },
+            { id: 2, teams: ["Brasil", "Japão"], title: "Brasil 🇧🇷 x 🇯🇵 Japão", details: "Seg, 29/06 - 14h00 (Houston)", guesses: { Thiago: "Brasil pênalti", Jamilly: "Brasil apertado", Samyr: "Brasil goleada" }, result: "Brasil apertado" },
+            { id: 3, teams: ["Alemanha", "Paraguai"], title: "Alemanha 🇩🇪 x 🇵🇾 Paraguai", details: "Seg, 29/06 - 17h30 (Boston)", guesses: { Thiago: "Alemanha goleada", Jamilly: "Paraguai pênalti", Samyr: "Alemanha apertado" }, result: "Paraguai pênalti" },
+            { id: 4, teams: ["Holanda", "Marrocos"], title: "Holanda 🇳🇱 x 🇲🇦 Marrocos", details: "Seg, 29/06 - 22h00 (Monterrey)", guesses: { Thiago: "Marrocos pênalti", Jamilly: "Marrocos apertado", Samyr: "Holanda pênalti" }, result: "Marrocos pênalti" },
+            { id: 5, teams: ["Costa do Marfim", "Noruega"], title: "Costa do Marfim 🇨🇮 x 🇳🇴 Noruega", details: "Ter, 30/06 - 14h00 (Dallas)", guesses: { Thiago: "Noruega apertado", Jamilly: "Noruega goleada", Samyr: "Noruega apertado" }, result: "" },
+            { id: 6, teams: ["França", "Suécia"], title: "França 🇫🇷 x 🇸🇪 Suécia", details: "Ter, 30/06 - 18h00 (Nova Jersey)", guesses: { Thiago: "França goleada", Jamilly: "França goleada", Samyr: "França goleada" }, result: "" },
+            { id: 7, teams: ["México", "Equador"], title: "México 🇲🇽 x 🇪🇨 Equador", details: "Ter, 30/06 - 23h00 (Cidade do México)", guesses: { Thiago: "Equador apertado", Jamilly: "Equador pênalti", Samyr: "México pênalti" }, result: "" },
+            { id: 8, teams: ["Inglaterra", "RD Congo"], title: "Inglaterra 🏴󠁧󠁢󠁥󠁮󠁧󠁿 x 🇨🇩 RD Congo", details: "Qua, 01/07 - 13h00 (Atlanta)", guesses: { Thiago: "Inglaterra apertado", Jamilly: "Inglaterra apertado", Samyr: "Inglaterra apertado" }, result: "" },
+            { id: 9, teams: ["Bélgica", "Senegal"], title: "Bélgica 🇧🇪 x 🇸🇳 Senegal", details: "Qua, 01/07 - 17h00 (Seattle)", guesses: { Thiago: "Senegal apertado", Jamilly: "Senegal apertado", Samyr: "Senegal pênalti" }, result: "" },
+            { id: 10, teams: ["EUA", "Bósnia"], title: "EUA 🇺🇸 x 🇧🇦 Bósnia", details: "Qua, 01/07 - 21h00 (Santa Clara)", guesses: { Thiago: "Bósnia pênalti", Jamilly: "EUA apertado", Samyr: "EUA goleada" }, result: "" },
+            { id: 11, teams: ["Espanha", "Áustria"], title: "Espanha 🇪🇸 x 🇦🇹 Áustria", details: "Qui, 02/07 - 16h00 (Los Angeles)", guesses: { Thiago: "Espanha goleada", Jamilly: "Espanha pênalti", Samyr: "Espanha goleada" }, result: "" },
+            { id: 12, teams: ["Portugal", "Croácia"], title: "Portugal 🇵🇹 x 🇭🇷 Croácia", details: "Qui, 02/07 - 20h00 (Toronto)", guesses: { Thiago: "Portugal pênalti", Jamilly: "Croácia apertado", Samyr: "Portugal apertado" }, result: "" },
+            { id: 13, teams: ["Suíça", "Argélia"], title: "Suíça 🇨🇭 x 🇩🇿 Argélia", details: "Sex, 03/07 - 00h00 (Vancouver)", guesses: { Thiago: "Suíça apertado", Jamilly: "Argélia apertado", Samyr: "Suíça goleada" }, result: "" },
+            { id: 14, teams: ["Austrália", "Egito"], title: "Austrália 🇦🇺 x 🇪🇬 Egito", details: "Sex, 03/07 - 15h00 (Dallas)", guesses: { Thiago: "Egito apertado", Jamilly: "Egito goleada", Samyr: "Egito apertado" }, result: "" },
+            { id: 15, teams: ["Argentina", "Cabo Verde"], title: "Argentina 🇦🇷 x 🇨🇻 Cabo Verde", details: "Sex, 03/07 - 19h00 (Miami)", guesses: { Thiago: "Cabo Verde pênalti", Jamilly: "Argentina goleada", Samyr: "Argentina goleada" }, result: "" },
+            { id: 16, teams: ["Colômbia", "Gana"], title: "Colômbia 🇨🇴 x 🇬🇭 Gana", details: "Sex, 03/07 - 22h30 (Kansas City)", guesses: { Thiago: "Colômbia pênalti", Jamilly: "Colômbia goleada", Samyr: "Colômbia apertado" }, result: "" }
         ];
 
         const container = document.getElementById('games-container');
@@ -118,7 +104,7 @@
         const scoreS = document.getElementById('score-Samyr');
 
         function generateOptions(teams, selectedResult) {
-            let optionsHTML = `<option value="">⚽ Selecione o Resultado...</option>`;
+            let optionsHTML = `<option value="">⚽ Aguardando Fim de Jogo...</option>`;
             teams.forEach(team => {
                 ["apertado", "goleada", "pênalti"].forEach(type => {
                     const val = `${team} ${type}`;
@@ -129,36 +115,38 @@
             return optionsHTML;
         }
 
-        // 1. Desenha a tela inicial VAZIA ou com os dados padrão do código
         function renderGames() {
             container.innerHTML = "";
             games.forEach((game, index) => {
                 const gameDiv = document.createElement('div');
-                gameDiv.className = "p-4 border rounded-lg bg-gray-50 flex flex-col md:flex-row gap-4 items-center justify-between";
+                gameDiv.className = "p-4 md:p-5 border-l-4 border-green-500 rounded-lg bg-gray-50 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between transition hover:shadow-md hover:bg-white";
                 
                 gameDiv.innerHTML = `
-                    <div class="w-full md:w-1/3">
-                        <span class="text-sm font-bold text-blue-600 uppercase">Jogo ${game.id}</span>
-                        <select id="result-${index}" class="mt-1 block w-full p-2 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    <div class="w-full md:w-5/12 mb-2 md:mb-0">
+                        <span class="block text-lg font-black text-gray-800">${game.title}</span>
+                        <span class="block text-xs font-semibold text-green-600 uppercase mb-2">📅 ${game.details}</span>
+                        <select id="result-${index}" class="block w-full p-2.5 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 shadow-sm font-semibold text-gray-700 cursor-pointer">
                             ${generateOptions(game.teams, game.result)}
                         </select>
                     </div>
                     
-                    <div class="w-full md:w-2/3 grid grid-cols-3 gap-2 text-center text-sm">
-                        <div id="guess-Thiago-${index}" class="p-2 border rounded-md transition-colors bg-gray-50 border-gray-200">
-                            <span class="block text-xs font-semibold text-gray-500">Thiago</span>${game.guesses.Thiago}
+                    <div class="w-full md:w-7/12 grid grid-cols-3 gap-2 text-center text-sm">
+                        <div id="guess-Thiago-${index}" class="p-2 border rounded-md transition-colors bg-gray-100 border-gray-200 flex flex-col justify-center">
+                            <span class="block text-xs font-bold text-gray-500 mb-1">Thiago</span>
+                            <span class="leading-tight">${game.guesses.Thiago}</span>
                         </div>
-                        <div id="guess-Jamilly-${index}" class="p-2 border rounded-md transition-colors bg-gray-50 border-gray-200">
-                            <span class="block text-xs font-semibold text-gray-500">Jamilly</span>${game.guesses.Jamilly}
+                        <div id="guess-Jamilly-${index}" class="p-2 border rounded-md transition-colors bg-gray-100 border-gray-200 flex flex-col justify-center">
+                            <span class="block text-xs font-bold text-gray-500 mb-1">Jamilly</span>
+                            <span class="leading-tight">${game.guesses.Jamilly}</span>
                         </div>
-                        <div id="guess-Samyr-${index}" class="p-2 border rounded-md transition-colors bg-gray-50 border-gray-200">
-                            <span class="block text-xs font-semibold text-gray-500">Samyr</span>${game.guesses.Samyr}
+                        <div id="guess-Samyr-${index}" class="p-2 border rounded-md transition-colors bg-gray-100 border-gray-200 flex flex-col justify-center">
+                            <span class="block text-xs font-bold text-gray-500 mb-1">Samyr</span>
+                            <span class="leading-tight">${game.guesses.Samyr}</span>
                         </div>
                     </div>
                 `;
                 container.appendChild(gameDiv);
 
-                // Quando alguém mudar o select, salva no Firebase IMEDIATAMENTE
                 document.getElementById(`result-${index}`).addEventListener('change', (e) => {
                     games[index].result = e.target.value;
                     const resultadosArray = games.map(g => g.result);
@@ -168,7 +156,6 @@
             updateScores();
         }
 
-        // 2. Calcula os pontos e colore as caixinhas de verde
         function updateScores() {
             let points = { Thiago: 0, Jamilly: 0, Samyr: 0 };
 
@@ -184,9 +171,9 @@
 
                     if (game.result !== "" && game.result !== "Outro" && game.result === game.guesses[person]) {
                         points[person]++;
-                        guessElement.className = "p-2 border rounded-md transition-colors bg-green-100 border-green-400 text-green-800";
+                        guessElement.className = "p-2 border rounded-md transition-colors bg-green-100 border-green-500 text-green-900 font-bold shadow-sm flex flex-col justify-center";
                     } else {
-                        guessElement.className = "p-2 border rounded-md transition-colors bg-gray-50 border-gray-200";
+                        guessElement.className = "p-2 border rounded-md transition-colors bg-gray-50 border-gray-200 text-gray-600 flex flex-col justify-center";
                     }
                 });
             });
@@ -196,21 +183,16 @@
             scoreS.innerText = points.Samyr;
         }
 
-        // Executa a criação da tela
         renderGames();
 
-        // 3. A MÁGICA DO FIREBASE: Puxa os dados da nuvem e atualiza a tela
         db.ref('resultados').on('value', (snapshot) => {
             const dados = snapshot.val();
-            
             if (dados) {
-                // Se já tem dados na nuvem, aplica eles nos jogos
                 games.forEach((game, index) => {
                     game.result = dados[index] || "";
                 });
-                updateScores(); // Recalcula os placares sem recriar a tela toda
+                updateScores();
             } else {
-                // Se o banco estiver vazio (primeira vez de todas), envia os primeiros 4 jogos já validados
                 const resultadosArray = games.map(g => g.result);
                 db.ref('resultados').set(resultadosArray);
             }
