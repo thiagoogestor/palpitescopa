@@ -15,17 +15,20 @@
 <body class="text-gray-800 p-4 md:p-8">
 
     <div class="max-w-5xl mx-auto">
+        <!-- Cabeçalho Temático -->
         <header class="bg-copa rounded-xl shadow-lg p-8 mb-8 text-center border-b-8 border-yellow-400 relative">
             <h1 class="text-4xl md:text-5xl font-black text-yellow-400 mb-2 uppercase tracking-wider drop-shadow-md">🏆 Bolão da Copa</h1>
             <p class="text-green-100 text-sm md:text-base mb-4 font-semibold">
                 Goleada = 3+ gols | Apertado = 1 ou 2 gols | Pênalti = Decisão nos pênaltis
             </p>
             
+            <!-- Indicador de Conexão -->
             <div id="status-conexao" class="inline-block bg-green-900 text-green-300 text-xs px-3 py-1 rounded-full font-bold shadow-inner">
                 ⏳ Conectando ao gramado...
             </div>
         </header>
 
+        <!-- Placar -->
         <div class="grid grid-cols-3 gap-3 md:gap-6 mb-8">
             <div class="bg-white rounded-xl shadow-md p-4 md:p-6 text-center border-b-4 border-green-500 transition-transform transform hover:-translate-y-1">
                 <h2 class="text-lg md:text-2xl font-bold text-gray-700">Thiago</h2>
@@ -44,12 +47,14 @@
             </div>
         </div>
 
+        <!-- Lista de Jogos -->
         <div class="bg-white rounded-xl shadow-lg p-4 md:p-8 border-t-4 border-gray-200">
             <h3 class="text-2xl font-black text-gray-800 mb-6 border-b-2 border-gray-100 pb-2 flex items-center gap-2">
                 ⚽ Confrontos - 16 Avos de Final
             </h3>
             <div id="games-container" class="space-y-4">
-                </div>
+                <!-- Jogos injetados aqui -->
+            </div>
         </div>
     </div>
 
@@ -78,24 +83,24 @@
             }
         });
 
-        // Tabela atualizada com os confrontos reais da Copa, horários e estádios!
+        // Adicionada a propriedade "datetime" com a data/hora real de cada jogo (padrão Internacional)
         const games = [
-            { id: 1, teams: ["Canadá", "África do Sul"], title: "Canadá 🇨🇦 x 🇿🇦 África do Sul", details: "Dom, 28/06 - 16h00 (Los Angeles)", guesses: { Thiago: "Canadá apertado", Jamilly: "Canadá apertado", Samyr: "Canadá apertado" }, result: "Canadá apertado" },
-            { id: 2, teams: ["Brasil", "Japão"], title: "Brasil 🇧🇷 x 🇯🇵 Japão", details: "Seg, 29/06 - 14h00 (Houston)", guesses: { Thiago: "Brasil pênalti", Jamilly: "Brasil apertado", Samyr: "Brasil goleada" }, result: "Brasil apertado" },
-            { id: 3, teams: ["Alemanha", "Paraguai"], title: "Alemanha 🇩🇪 x 🇵🇾 Paraguai", details: "Seg, 29/06 - 17h30 (Boston)", guesses: { Thiago: "Alemanha goleada", Jamilly: "Paraguai pênalti", Samyr: "Alemanha apertado" }, result: "Paraguai pênalti" },
-            { id: 4, teams: ["Holanda", "Marrocos"], title: "Holanda 🇳🇱 x 🇲🇦 Marrocos", details: "Seg, 29/06 - 22h00 (Monterrey)", guesses: { Thiago: "Marrocos pênalti", Jamilly: "Marrocos apertado", Samyr: "Holanda pênalti" }, result: "Marrocos pênalti" },
-            { id: 5, teams: ["Costa do Marfim", "Noruega"], title: "Costa do Marfim 🇨🇮 x 🇳🇴 Noruega", details: "Ter, 30/06 - 14h00 (Dallas)", guesses: { Thiago: "Noruega apertado", Jamilly: "Noruega goleada", Samyr: "Noruega apertado" }, result: "" },
-            { id: 6, teams: ["França", "Suécia"], title: "França 🇫🇷 x 🇸🇪 Suécia", details: "Ter, 30/06 - 18h00 (Nova Jersey)", guesses: { Thiago: "França goleada", Jamilly: "França goleada", Samyr: "França goleada" }, result: "" },
-            { id: 7, teams: ["México", "Equador"], title: "México 🇲🇽 x 🇪🇨 Equador", details: "Ter, 30/06 - 23h00 (Cidade do México)", guesses: { Thiago: "Equador apertado", Jamilly: "Equador pênalti", Samyr: "México pênalti" }, result: "" },
-            { id: 8, teams: ["Inglaterra", "RD Congo"], title: "Inglaterra 🏴󠁧󠁢󠁥󠁮󠁧󠁿 x 🇨🇩 RD Congo", details: "Qua, 01/07 - 13h00 (Atlanta)", guesses: { Thiago: "Inglaterra apertado", Jamilly: "Inglaterra apertado", Samyr: "Inglaterra apertado" }, result: "" },
-            { id: 9, teams: ["Bélgica", "Senegal"], title: "Bélgica 🇧🇪 x 🇸🇳 Senegal", details: "Qua, 01/07 - 17h00 (Seattle)", guesses: { Thiago: "Senegal apertado", Jamilly: "Senegal apertado", Samyr: "Senegal pênalti" }, result: "" },
-            { id: 10, teams: ["EUA", "Bósnia"], title: "EUA 🇺🇸 x 🇧🇦 Bósnia", details: "Qua, 01/07 - 21h00 (Santa Clara)", guesses: { Thiago: "Bósnia pênalti", Jamilly: "EUA apertado", Samyr: "EUA goleada" }, result: "" },
-            { id: 11, teams: ["Espanha", "Áustria"], title: "Espanha 🇪🇸 x 🇦🇹 Áustria", details: "Qui, 02/07 - 16h00 (Los Angeles)", guesses: { Thiago: "Espanha goleada", Jamilly: "Espanha pênalti", Samyr: "Espanha goleada" }, result: "" },
-            { id: 12, teams: ["Portugal", "Croácia"], title: "Portugal 🇵🇹 x 🇭🇷 Croácia", details: "Qui, 02/07 - 20h00 (Toronto)", guesses: { Thiago: "Portugal pênalti", Jamilly: "Croácia apertado", Samyr: "Portugal apertado" }, result: "" },
-            { id: 13, teams: ["Suíça", "Argélia"], title: "Suíça 🇨🇭 x 🇩🇿 Argélia", details: "Sex, 03/07 - 00h00 (Vancouver)", guesses: { Thiago: "Suíça apertado", Jamilly: "Argélia apertado", Samyr: "Suíça goleada" }, result: "" },
-            { id: 14, teams: ["Austrália", "Egito"], title: "Austrália 🇦🇺 x 🇪🇬 Egito", details: "Sex, 03/07 - 15h00 (Dallas)", guesses: { Thiago: "Egito apertado", Jamilly: "Egito goleada", Samyr: "Egito apertado" }, result: "" },
-            { id: 15, teams: ["Argentina", "Cabo Verde"], title: "Argentina 🇦🇷 x 🇨🇻 Cabo Verde", details: "Sex, 03/07 - 19h00 (Miami)", guesses: { Thiago: "Cabo Verde pênalti", Jamilly: "Argentina goleada", Samyr: "Argentina goleada" }, result: "" },
-            { id: 16, teams: ["Colômbia", "Gana"], title: "Colômbia 🇨🇴 x 🇬🇭 Gana", details: "Sex, 03/07 - 22h30 (Kansas City)", guesses: { Thiago: "Colômbia pênalti", Jamilly: "Colômbia goleada", Samyr: "Colômbia apertado" }, result: "" }
+            { id: 1, teams: ["Canadá", "África do Sul"], title: "Canadá 🇨🇦 x 🇿🇦 África do Sul", details: "Dom, 28/06 - 16h00", datetime: "2026-06-28T16:00:00", guesses: { Thiago: "Canadá apertado", Jamilly: "Canadá apertado", Samyr: "Canadá apertado" }, result: "Canadá apertado" },
+            { id: 2, teams: ["Brasil", "Japão"], title: "Brasil 🇧🇷 x 🇯🇵 Japão", details: "Seg, 29/06 - 14h00", datetime: "2026-06-29T14:00:00", guesses: { Thiago: "Brasil pênalti", Jamilly: "Brasil apertado", Samyr: "Brasil goleada" }, result: "Brasil apertado" },
+            { id: 3, teams: ["Alemanha", "Paraguai"], title: "Alemanha 🇩🇪 x 🇵🇾 Paraguai", details: "Seg, 29/06 - 17h30", datetime: "2026-06-29T17:30:00", guesses: { Thiago: "Alemanha goleada", Jamilly: "Paraguai pênalti", Samyr: "Alemanha apertado" }, result: "Paraguai pênalti" },
+            { id: 4, teams: ["Holanda", "Marrocos"], title: "Holanda 🇳🇱 x 🇲🇦 Marrocos", details: "Seg, 29/06 - 22h00", datetime: "2026-06-29T22:00:00", guesses: { Thiago: "Marrocos pênalti", Jamilly: "Marrocos apertado", Samyr: "Holanda pênalti" }, result: "Marrocos pênalti" },
+            { id: 5, teams: ["Costa do Marfim", "Noruega"], title: "Costa do Marfim 🇨🇮 x 🇳🇴 Noruega", details: "Ter, 30/06 - 14h00", datetime: "2026-06-30T14:00:00", guesses: { Thiago: "Noruega apertado", Jamilly: "Noruega goleada", Samyr: "Noruega apertado" }, result: "" },
+            { id: 6, teams: ["França", "Suécia"], title: "França 🇫🇷 x 🇸🇪 Suécia", details: "Ter, 30/06 - 18h00", datetime: "2026-06-30T18:00:00", guesses: { Thiago: "França goleada", Jamilly: "França goleada", Samyr: "França goleada" }, result: "" },
+            { id: 7, teams: ["México", "Equador"], title: "México 🇲🇽 x 🇪🇨 Equador", details: "Ter, 30/06 - 23h00", datetime: "2026-06-30T23:00:00", guesses: { Thiago: "Equador apertado", Jamilly: "Equador pênalti", Samyr: "México pênalti" }, result: "" },
+            { id: 8, teams: ["Inglaterra", "RD Congo"], title: "Inglaterra 🏴󠁧󠁢󠁥󠁮󠁧󠁿 x 🇨🇩 RD Congo", details: "Qua, 01/07 - 13h00", datetime: "2026-07-01T13:00:00", guesses: { Thiago: "Inglaterra apertado", Jamilly: "Inglaterra apertado", Samyr: "Inglaterra apertado" }, result: "" },
+            { id: 9, teams: ["Bélgica", "Senegal"], title: "Bélgica 🇧🇪 x 🇸🇳 Senegal", details: "Qua, 01/07 - 17h00", datetime: "2026-07-01T17:00:00", guesses: { Thiago: "Senegal apertado", Jamilly: "Senegal apertado", Samyr: "Senegal pênalti" }, result: "" },
+            { id: 10, teams: ["EUA", "Bósnia"], title: "EUA 🇺🇸 x 🇧🇦 Bósnia", details: "Qua, 01/07 - 21h00", datetime: "2026-07-01T21:00:00", guesses: { Thiago: "Bósnia pênalti", Jamilly: "EUA apertado", Samyr: "EUA goleada" }, result: "" },
+            { id: 11, teams: ["Espanha", "Áustria"], title: "Espanha 🇪🇸 x 🇦🇹 Áustria", details: "Qui, 02/07 - 16h00", datetime: "2026-07-02T16:00:00", guesses: { Thiago: "Espanha goleada", Jamilly: "Espanha pênalti", Samyr: "Espanha goleada" }, result: "" },
+            { id: 12, teams: ["Portugal", "Croácia"], title: "Portugal 🇵🇹 x 🇭🇷 Croácia", details: "Qui, 02/07 - 20h00", datetime: "2026-07-02T20:00:00", guesses: { Thiago: "Portugal pênalti", Jamilly: "Croácia apertado", Samyr: "Portugal apertado" }, result: "" },
+            { id: 13, teams: ["Suíça", "Argélia"], title: "Suíça 🇨🇭 x 🇩🇿 Argélia", details: "Sex, 03/07 - 00h00", datetime: "2026-07-03T00:00:00", guesses: { Thiago: "Suíça apertado", Jamilly: "Argélia apertado", Samyr: "Suíça goleada" }, result: "" },
+            { id: 14, teams: ["Austrália", "Egito"], title: "Austrália 🇦🇺 x 🇪🇬 Egito", details: "Sex, 03/07 - 15h00", datetime: "2026-07-03T15:00:00", guesses: { Thiago: "Egito apertado", Jamilly: "Egito goleada", Samyr: "Egito apertado" }, result: "" },
+            { id: 15, teams: ["Argentina", "Cabo Verde"], title: "Argentina 🇦🇷 x 🇨🇻 Cabo Verde", details: "Sex, 03/07 - 19h00", datetime: "2026-07-03T19:00:00", guesses: { Thiago: "Cabo Verde pênalti", Jamilly: "Argentina goleada", Samyr: "Argentina goleada" }, result: "" },
+            { id: 16, teams: ["Colômbia", "Gana"], title: "Colômbia 🇨🇴 x 🇬🇭 Gana", details: "Sex, 03/07 - 22h30", datetime: "2026-07-03T22:30:00", guesses: { Thiago: "Colômbia pênalti", Jamilly: "Colômbia goleada", Samyr: "Colômbia apertado" }, result: "" }
         ];
 
         const container = document.getElementById('games-container');
@@ -119,27 +124,31 @@
             container.innerHTML = "";
             games.forEach((game, index) => {
                 const gameDiv = document.createElement('div');
-                gameDiv.className = "p-4 md:p-5 border-l-4 border-green-500 rounded-lg bg-gray-50 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between transition hover:shadow-md hover:bg-white";
+                gameDiv.id = `card-${index}`;
+                gameDiv.className = "p-4 md:p-5 border-l-4 rounded-lg flex flex-col md:flex-row gap-4 items-center justify-between transition-all duration-300";
                 
                 gameDiv.innerHTML = `
                     <div class="w-full md:w-5/12 mb-2 md:mb-0">
-                        <span class="block text-lg font-black text-gray-800">${game.title}</span>
-                        <span class="block text-xs font-semibold text-green-600 uppercase mb-2">📅 ${game.details}</span>
+                        <span class="block text-lg font-black text-gray-800 mb-1">${game.title}</span>
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="block text-xs font-semibold text-gray-500 uppercase">📅 ${game.details}</span>
+                            <span id="badge-${index}"></span>
+                        </div>
                         <select id="result-${index}" class="block w-full p-2.5 border border-gray-300 bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 shadow-sm font-semibold text-gray-700 cursor-pointer">
                             ${generateOptions(game.teams, game.result)}
                         </select>
                     </div>
                     
                     <div class="w-full md:w-7/12 grid grid-cols-3 gap-2 text-center text-sm">
-                        <div id="guess-Thiago-${index}" class="p-2 border rounded-md transition-colors bg-gray-100 border-gray-200 flex flex-col justify-center">
+                        <div id="guess-Thiago-${index}">
                             <span class="block text-xs font-bold text-gray-500 mb-1">Thiago</span>
                             <span class="leading-tight">${game.guesses.Thiago}</span>
                         </div>
-                        <div id="guess-Jamilly-${index}" class="p-2 border rounded-md transition-colors bg-gray-100 border-gray-200 flex flex-col justify-center">
+                        <div id="guess-Jamilly-${index}">
                             <span class="block text-xs font-bold text-gray-500 mb-1">Jamilly</span>
                             <span class="leading-tight">${game.guesses.Jamilly}</span>
                         </div>
-                        <div id="guess-Samyr-${index}" class="p-2 border rounded-md transition-colors bg-gray-100 border-gray-200 flex flex-col justify-center">
+                        <div id="guess-Samyr-${index}">
                             <span class="block text-xs font-bold text-gray-500 mb-1">Samyr</span>
                             <span class="leading-tight">${game.guesses.Samyr}</span>
                         </div>
@@ -158,22 +167,51 @@
 
         function updateScores() {
             let points = { Thiago: 0, Jamilly: 0, Samyr: 0 };
+            const agora = new Date();
 
             games.forEach((game, index) => {
                 const selectElement = document.getElementById(`result-${index}`);
+                const card = document.getElementById(`card-${index}`);
+                const badge = document.getElementById(`badge-${index}`);
+                const horaDoJogo = new Date(game.datetime);
+                
                 if (selectElement && selectElement.value !== game.result) {
                     selectElement.value = game.result;
                 }
 
+                // --- Controle Visual de Status do Jogo (Aguardando / Em Breve / Encerrado) ---
+                if (game.result !== "") {
+                    // Tem resultado = Jogo Encerrado (Fica cinza para destacar os debaixo)
+                    badge.innerHTML = "✅ ENCERRADO";
+                    badge.className = "bg-gray-200 text-gray-600 px-2 py-0.5 rounded text-[10px] uppercase font-bold";
+                    card.className = "p-4 md:p-5 border-l-4 border-gray-400 bg-gray-200 rounded-lg flex flex-col md:flex-row gap-4 items-center justify-between transition-all duration-300 opacity-75";
+                } else if (agora > horaDoJogo) {
+                    // Já passou da hora, mas não preencheram
+                    badge.innerHTML = "⚠️ AGUARDANDO PLACAR";
+                    badge.className = "bg-red-100 text-red-600 px-2 py-0.5 rounded text-[10px] uppercase font-bold";
+                    card.className = "p-4 md:p-5 border-l-4 border-red-400 bg-white shadow-md rounded-lg flex flex-col md:flex-row gap-4 items-center justify-between transition-all duration-300";
+                } else {
+                    // Jogo no futuro
+                    badge.innerHTML = "⏳ EM BREVE";
+                    badge.className = "bg-blue-100 text-blue-600 px-2 py-0.5 rounded text-[10px] uppercase font-bold";
+                    card.className = "p-4 md:p-5 border-l-4 border-blue-400 bg-white shadow-md rounded-lg flex flex-col md:flex-row gap-4 items-center justify-between transition-all duration-300";
+                }
+
+                // --- Controle de Cores dos Palpites (Verde = Acerto | Vermelho = Erro | Cinza = Neutro) ---
                 ['Thiago', 'Jamilly', 'Samyr'].forEach(person => {
                     const guessElement = document.getElementById(`guess-${person}-${index}`);
                     if (!guessElement) return;
 
-                    if (game.result !== "" && game.result !== "Outro" && game.result === game.guesses[person]) {
+                    if (game.result === "") {
+                        // Jogo não aconteceu (Neutro)
+                        guessElement.className = "p-2 border rounded-md bg-gray-100 border-gray-200 text-gray-500 flex flex-col justify-center";
+                    } else if (game.result !== "Outro" && game.result === game.guesses[person]) {
+                        // Acertou na mosca (Verde)
                         points[person]++;
-                        guessElement.className = "p-2 border rounded-md transition-colors bg-green-100 border-green-500 text-green-900 font-bold shadow-sm flex flex-col justify-center";
+                        guessElement.className = "p-2 border rounded-md transition-colors bg-green-100 border-green-500 text-green-900 font-bold shadow-sm flex flex-col justify-center transform scale-105";
                     } else {
-                        guessElement.className = "p-2 border rounded-md transition-colors bg-gray-50 border-gray-200 text-gray-600 flex flex-col justify-center";
+                        // Errou (Vermelho)
+                        guessElement.className = "p-2 border rounded-md transition-colors bg-red-50 border-red-300 text-red-600 opacity-70 flex flex-col justify-center";
                     }
                 });
             });
@@ -197,6 +235,9 @@
                 db.ref('resultados').set(resultadosArray);
             }
         });
+
+        // Um truque para garantir que os crachás de "Em breve" atualizem sozinhos se a hora virar com o site aberto
+        setInterval(updateScores, 60000); // Roda a checagem a cada 1 minuto
     </script>
 </body>
 </html>
